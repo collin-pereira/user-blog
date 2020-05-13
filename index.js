@@ -15,8 +15,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(loggerMiddleware.logger)
 
+//all routes begin with /api
 app.use('/api',require('./routes'))
 
+//unmatched route
 app.all('/*',(req,res)=>res.status(404).send("Resource Not Found"))
 
 //listen to server

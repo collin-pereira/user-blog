@@ -25,12 +25,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     hooks: {
       beforeCreate: (user) => {
-        user.password =passwordHash.generate(user.password)
+        user.password = passwordHash.generate(user.password)
       }
     }
   });
   User.associate = function (models) {
-    // associations can be defined here
+    User.hasMany(models.Post, { foreignKey: 'userId' })
   };
   return User;
 };

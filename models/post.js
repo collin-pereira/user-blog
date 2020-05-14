@@ -1,11 +1,27 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Post = sequelize.define('Post', {
-    title: DataTypes.STRING,
-    body: DataTypes.TEXT
+    id: {
+      type: DataTypes.UUID,
+      allowNull: false,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    body: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
+    userId: {
+      type: DataTypes.UUID,
+      allowNull: false
+    }
   }, {});
-  Post.associate = function(models) {
-    // associations can be defined here
+  Post.associate = function (models) {
+    Post.belongsTo(models.User, { foreignKey: 'userId' })
   };
   return Post;
 };

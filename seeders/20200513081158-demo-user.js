@@ -1,14 +1,19 @@
 'use strict';
 
+const fakeSeeder = require('fake-seeder')
+const uuid = require('uuid')
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Users', [{
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'demo@demo.com',
-        createdAt: new Date(),
-        updatedAt: new Date()
-      }], {});
+    var users = fakeSeeder.generateCard(10)
+      .map(user => {
+        user.id=uuid.v4()
+        user.password = 'secret_password'
+        user.createdAt= new Date()
+        user.updatedAt= new Date()
+        return user
+      })
+    return queryInterface.bulkInsert('Users', users , {});
   },
 
   down: (queryInterface, Sequelize) => {

@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
+    },
+    image_link: {
+      type: DataTypes.STRING,
+      defaultValue: "http://localhost:4000/user/uploads/user.png"
     }
   }, {
     hooks: {

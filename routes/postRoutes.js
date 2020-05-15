@@ -1,7 +1,8 @@
 const router = require('express').Router();
+const validators=require('../middelwares/validators')
 const postsController = require('../controllers/postController');
 
-router.post('/', postsController.createPost);
+router.post('/', validators.newPostValidator, postsController.createPost);
 router.get('/', postsController.getAllPosts);
 router.get('/:id', postsController.getPost);
 router.patch('/:id', postsController.updatePost);

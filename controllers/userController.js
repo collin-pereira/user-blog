@@ -31,7 +31,6 @@ const getAllUsers = async (req, res) => {
 
 const getUser = async (req, res) => {
     let { id } = req.params
-
     try {
         let exists = await helper.resourceExists(User, id)
         if (!exists) return res.status(404).send(NOT_FOUND)

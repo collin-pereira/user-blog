@@ -7,6 +7,7 @@ router.get('/', usersController.getAllUsers);
 router.get('/:id', usersController.getUser);
 router.patch('/:id', usersController.updateUser);
 router.patch('/:id/image', usersController.updateProfileImage);
+router.delete('/:id/image', usersController.deleteProfileImage);
 router.delete('/:id', usersController.deleteUser);
 
 module.exports = router;

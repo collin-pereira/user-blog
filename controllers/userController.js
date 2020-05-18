@@ -5,6 +5,7 @@ const fs = require('fs')
 
 const NOT_FOUND = { message: 'user not found' }
 const SUCCESS = { message: "success" }
+const STATIC_DIR = __BASEDIR + `/uploads`
 
 /**
  * create user
@@ -90,16 +91,50 @@ const updateProfileImage = async (req, res) => {
         file.pipe(fs.createWriteStream(imagePath));
     })
 
-    busboy.on('finish', async() => {
+    busboy.on('finish', async () => {
         try {
-            await User.update({image_link:"http://localhost:4000/user/uploads/"+imageName},{ where: { id: id } })
+            let imageLink = await getUserImageLink(req.params.id)
+            await User.update({ image_link: "http://localhost:4000/user/uploads/" + imageName }, { where: { id: id } })
+            if (imageLink !== null) {
+                fs.unlinkSync(getImagePath(imageLink))
+            }
             res.status(200).send(SUCCESS)
         } catch (error) {
+            console.log(error);
+            
             res.status(500).send(error)
         }
     })
 
     req.pipe(busboy)
+}
+
+const deleteProfileImage = async (req, res) => {
+    try {
+        let exists = await helper.resourceExists(User, req.params.id)
+        if (!exists) return res.status(404).send(NOT_FOUND)
+        let imageLink = await getUserImageLink(req.params.id)
+        if (imageLink !== null) {
+            fs.unlinkSync(getImagePath(imageLink))
+            await User.update({ image_link: null }, { where: { id: req.params.id } })
+        }
+        res.status(200).send(SUCCESS)
+    } catch (error) {
+        res.send(500).send(error)
+    }
+}
+
+const getUserImageLink = async (id) => {
+    try {
+        let { image_link } = await User.findByPk(id, { attributes: ['image_link'] })
+        return image_link;
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+const getImagePath = (imageLink) => {
+    return `${STATIC_DIR}/${imageLink.split('/').pop()}`
 }
 
 module.exports = {
@@ -108,5 +143,6 @@ module.exports = {
     getUser,
     updateUser,
     deleteUser,
-    updateProfileImage
+    updateProfileImage,
+    deleteProfileImage
 }

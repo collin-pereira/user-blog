@@ -8,14 +8,17 @@ module.exports = {
         type: Sequelize.UUID
       },
       firstName: {
-        type: Sequelize.STRING(20)
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       lastName: {
-        type: Sequelize.STRING(20)
+        type: Sequelize.STRING(20),
+        allowNull: false,
       },
       email: {
         type: Sequelize.STRING,
-        unique: true
+        unique: true,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

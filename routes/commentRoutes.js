@@ -4,7 +4,7 @@ const commentsController = require('../controllers/commentController');
 const passport = require('passport')
 
 router.post('/', passport.authenticate('jwt', { session: false }), validators.newCommentValidator, commentsController.createComment);
-router.patch('/:id', passport.authenticate('jwt', { session: false }), commentsController.updateComment);
-router.delete('/:id', passport.authenticate('jwt', { session: false }), commentsController.deleteComment);
+router.patch('/:id', [passport.authenticate('jwt', { session: false }), validators.isActionAllowed], commentsController.updateComment);
+router.delete('/:id', [passport.authenticate('jwt', { session: false }), validators.isActionAllowed], commentsController.deleteComment);
 
 module.exports = router;

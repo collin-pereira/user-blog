@@ -20,8 +20,6 @@ const createComment = async (req, res) => {
 const updateComment = async (req, res) => {
     const { id } = req.params
     try {
-        let exist = await helper.resourceExists(Comment, id)
-        if (!exist) return res.status(404).send(NOT_FOUND)
         await Comment.update(req.body, { where: { id: id } })
         res.status(200).send(SUCCESS)
     } catch (error) {
@@ -32,8 +30,6 @@ const updateComment = async (req, res) => {
 const deleteComment = async (req, res) => {
     const { id } = req.params
     try {
-        let exist = await helper.resourceExists(Comment, id)
-        if (!exist) return res.status(404).send(NOT_FOUND)
         await Comment.destroy({ where: { id: id } })
         res.send(SUCCESS)
     } catch (error) {

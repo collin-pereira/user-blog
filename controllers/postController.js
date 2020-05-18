@@ -52,9 +52,6 @@ const getPost = async (req, res) => {
 const updatePost = async (req, res) => {
     const { id } = req.params
     try {
-        let exist = await helper.resourceExists(Post, id)
-        if (!exist) return res.status(404).send(NOT_FOUND)
-
         await Post.update(req.body, { where: { id: id } })
         res.status(200).send(SUCCESS)
     } catch (error) {
@@ -65,9 +62,6 @@ const updatePost = async (req, res) => {
 const deletePost = async (req, res) => {
     const { id } = req.params
     try {
-        let exist = await helper.resourceExists(Post, id)
-        if (!exist) return res.status(404).send(NOT_FOUND)
-
         await Post.destroy({ where: { id: id } })
         res.send(SUCCESS)
     } catch (error) {

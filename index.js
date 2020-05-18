@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors')
+const passport =require('passport')
 const loggerMiddleware = require('./middelwares/logger')
 
 require('dotenv').config();
@@ -9,8 +10,10 @@ global.__BASEDIR = __dirname
 //database
 const db = require('./models')
 require('./db').authenticateAndSyncDb(db.sequelize)
+require('./config/passport')
 
 //middlewares
+app.use(passport.initialize())
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());

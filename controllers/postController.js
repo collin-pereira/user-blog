@@ -18,7 +18,10 @@ const getAllPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({
             include: [{
-                model: User
+                model: User,
+                attributes:{
+                    exclude:['password']
+                }
             }]
         })
         res.status(200).send(posts)
@@ -32,10 +35,12 @@ const getPost = async (req, res) => {
     try {
         let exist = await helper.resourceExists(Post, id)
         if (!exist) return res.status(404).send(NOT_FOUND)
-
         const post = await Post.findByPk(id, {
             include: [{
-                model: User
+                model: User,
+                attributes:{
+                    exclude:['password']
+                }
             }]
         })
         res.status(200).send(post)

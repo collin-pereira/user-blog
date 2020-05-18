@@ -1,4 +1,4 @@
-const { Post, User } = require('../models')
+const { Post, User, Comment } = require('../models')
 const helper = require('../helpers/index')
 
 const NOT_FOUND = { message: 'post not found' }
@@ -70,10 +70,21 @@ const deletePost = async (req, res) => {
     }
 }
 
+const getPostComments = async (req, res) => {
+    const { id } = req.params
+    try {
+        const comments = await Comment.findAll({ where: { postId: id } })
+        res.status(200).send(comments)
+    } catch (error) {
+        res.send(500).send(error)
+    }
+}
+
 module.exports = {
     createPost,
     getAllPosts,
     getPost,
     updatePost,
-    deletePost
+    deletePost,
+    getPostComments
 }

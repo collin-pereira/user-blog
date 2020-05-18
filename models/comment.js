@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Comment = sequelize.define('post-comment', {
+  const Comment = sequelize.define('Comment', {
     id: {
       primaryKey: true,
       type: DataTypes.UUID,

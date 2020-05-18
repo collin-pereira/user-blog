@@ -16,7 +16,13 @@ const newPostValidator = (req, res, next) => {
     error ? res.status(400).send(error) : next()
 }
 
+const newCommentValidator =(req,res,next)=>{
+    const { error } = schema.commentSchema.validate(req.body)
+    error ? res.status(400).send(error) : next()
+}
+
 module.exports = {
     newUserValidator,
-    newPostValidator
+    newPostValidator,
+    newCommentValidator
 }
